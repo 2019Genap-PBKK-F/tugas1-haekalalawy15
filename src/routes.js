@@ -11,6 +11,10 @@ import AccessView from './components/views/Access.vue'
 import ServerView from './components/views/Server.vue'
 import ReposView from './components/views/Repos.vue'
 import ExcelView from './components/views/Excel.vue'
+import DataDasarView from './components/views/DataDasar.vue'
+import KategoriUnitView from './components/views/KategoriUnit.vue'
+import UnitView from './components/views/Unit.vue'
+import CapaianUnitView from './components/views/Capaian_Unit.vue'
 
 // Routes
 const routes = [
@@ -63,6 +67,26 @@ const routes = [
         component: ExcelView,
         name: 'Excel',
         meta: {description: 'List of Excel'}
+      }, {
+        path: 'DataDasar',
+        component: DataDasarView,
+        name: 'Data Dasar',
+        meta: {description: ''}
+      }, {
+        path: 'KategoriUnit',
+        component: KategoriUnitView,
+        name: 'Kategori Unit',
+        meta: {description: ''}
+      }, {
+        path: 'Unit',
+        component: UnitView,
+        name: 'Unit',
+        meta: {description: ''}
+      }, {
+        path: 'CapaianUnit',
+        component: CapaianUnitView,
+        name: 'Capaian Unit',
+        meta: {description: ''}
       }
     ]
   }, {
