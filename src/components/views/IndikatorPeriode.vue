@@ -13,13 +13,17 @@ import jexcel from 'jexcel'
 import 'jexcel/dist/jexcel.css'
 import axios from 'axios'
 var host = 'http://10.199.14.46:8001/'
+var dropdownMasterIndikator = 'http://10.199.14.46:8001/api/masterindikator/nama/'
+var dropdownPeriode = 'http://10.199.14.46:8001/api/periode/nama/'
 export default {
   // name: 'App',
   data() {
     return {
-      dataDasar: [],
+      masterIndikator: [],
       form: {
-        nama: 'New Data'
+        id_master: 1,
+        id_periode: 2020,
+        bobot: 0.0
       }
     }
   },
@@ -28,7 +32,7 @@ export default {
   },
   methods: {
     load() {
-      axios.get(host + 'api/datadasar/').then(res => {
+      axios.get(host + 'api/indikatorperiode/').then(res => {
         console.log(res.data)
         var jexcelOptions = {
           data: res.data,
@@ -38,11 +42,9 @@ export default {
           ondeleterow: this.deleteRow,
           responsive: true,
           columns: [
-            { type: 'hidden', title: 'id', width: '10px' },
-            { type: 'text', title: 'Nama', width: '120px' },
-            { type: 'text', title: 'Create Date', width: '200px', readOnly: true },
-            { type: 'text', title: 'Last Update', width: '200px', readOnly: true },
-            { type: 'text', title: 'Expired Date', width: '200px' }
+            { type: 'dropdown', title: 'Master Indikator', url: dropdownMasterIndikator, width: '120px' },
+            { type: 'dropdown', title: 'Periode', url: dropdownPeriode, width: '120px' },
+            { type: 'text', title: 'Bobot', width: '120px' }
           ]
         }
         let spreadsheet = jexcel(this.$el, jexcelOptions)
@@ -50,32 +52,32 @@ export default {
       })
     },
     newRow() {
-      axios.post(host + 'api/datadasar/', this.form).then(res => {
+      axios.post(host + 'api/indikatorperiode/', this.form).then(res => {
         console.log(res.data)
       })
     },
     updateRow(instance, cell, columns, row, value) {
-      axios.get(host + 'api/datadasar/').then(res => {
+      axios.get(host + 'api/indikatorperiode/').then(res => {
         var index = Object.values(res.data[row])
+        var old = Object.values(res.data[row])
         index[columns] = value
-        console.log(index)
-        axios.put(host + 'api/datadasar/' + index[0], {
-          id: index[0],
-          nama: index[1],
-          create_date: index[2],
-          last_update: index[3],
-          expired_date: index[4]
+        console.log(old[0] + ' ' + old[1])
+        console.log(index[0] + ' ' + index[1])
+        axios.put(host + 'api/indikatorperiode/' + old[0] + '&' + old[1], {
+          id_master: index[0],
+          id_periode: index[1],
+          bobot: index[2]
         }).then(res => {
           console.log(res.data)
         })
       })
     },
     deleteRow(instance, row) {
-      axios.get(host + 'api/datadasar/').then(res => {
+      axios.get(host + 'api/indikatorperiode/').then(res => {
         var index = Object.values(res.data[row])
         // console.log(index)
         console.log(row)
-        axios.delete(host + 'api/datadasar/' + index[0])
+        axios.delete(host + 'api/indikatorperiode/' + index[0] + '&' + index[1])
       })
     }
   }

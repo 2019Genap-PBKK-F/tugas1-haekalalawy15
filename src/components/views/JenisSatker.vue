@@ -17,9 +17,9 @@ export default {
   // name: 'App',
   data() {
     return {
-      dataDasar: [],
+      jenisSatker: [],
       form: {
-        nama: 'New Data'
+        nama: 'blank'
       }
     }
   },
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     load() {
-      axios.get(host + 'api/datadasar/').then(res => {
+      axios.get(host + 'api/jenissatker/').then(res => {
         console.log(res.data)
         var jexcelOptions = {
           data: res.data,
@@ -50,16 +50,16 @@ export default {
       })
     },
     newRow() {
-      axios.post(host + 'api/datadasar/', this.form).then(res => {
+      axios.post(host + 'api/jenissatker/', this.form).then(res => {
         console.log(res.data)
       })
     },
     updateRow(instance, cell, columns, row, value) {
-      axios.get(host + 'api/datadasar/').then(res => {
+      axios.get(host + 'api/jenissatker/').then(res => {
         var index = Object.values(res.data[row])
         index[columns] = value
         console.log(index)
-        axios.put(host + 'api/datadasar/' + index[0], {
+        axios.put(host + 'api/jenissatker/' + index[0], {
           id: index[0],
           nama: index[1],
           create_date: index[2],
@@ -71,11 +71,11 @@ export default {
       })
     },
     deleteRow(instance, row) {
-      axios.get(host + 'api/datadasar/').then(res => {
+      axios.get(host + 'api/jenissatker/').then(res => {
         var index = Object.values(res.data[row])
         // console.log(index)
         console.log(row)
-        axios.delete(host + 'api/datadasar/' + index[0])
+        axios.delete(host + 'api/jenissatker/' + index[0])
       })
     }
   }
